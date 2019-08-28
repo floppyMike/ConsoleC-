@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleC++", "ConsoleC++\Co
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Product Inventory Project", "Product Inventory Project\Product Inventory Project.vcxproj", "{EBC7BE95-99FF-4B81-A3E2-FEA22C51E1BA}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Airline _ Hotel Reservation System", "Airline _ Hotel Reservation System\Airline _ Hotel Reservation System.vcxproj", "{E76C48C9-4AAD-4378-86B0-0D87E9366E33}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{EBC7BE95-99FF-4B81-A3E2-FEA22C51E1BA}.Release|x64.Build.0 = Release|x64
 		{EBC7BE95-99FF-4B81-A3E2-FEA22C51E1BA}.Release|x86.ActiveCfg = Release|Win32
 		{EBC7BE95-99FF-4B81-A3E2-FEA22C51E1BA}.Release|x86.Build.0 = Release|Win32
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Debug|x64.ActiveCfg = Debug|x64
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Debug|x64.Build.0 = Debug|x64
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Debug|x86.ActiveCfg = Debug|Win32
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Debug|x86.Build.0 = Debug|Win32
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Release|x64.ActiveCfg = Release|x64
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Release|x64.Build.0 = Release|x64
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Release|x86.ActiveCfg = Release|Win32
+		{E76C48C9-4AAD-4378-86B0-0D87E9366E33}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
