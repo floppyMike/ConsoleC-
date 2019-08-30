@@ -6,18 +6,23 @@
 template<typename T>
 struct IAccount
 {
-	IAccount& transform(float v) noexcept { static_cast<T*>(this)->transform(v); return *this; }
-	float balance() const { return static_cast<const T*>(this)->balance(); }
+	auto& deposit(float v) noexcept { static_cast<T*>(this)->deposit(v); return *this; }
+	auto& takeOut(float v) noexcept { static_cast<T*>(this)->takeOut(v); return *this; }
+	auto balance() const noexcept { return static_cast<const T*>(this)->balance(); }
+
+protected:
+	IAccount() = default;
 };
 
 class Account : public IAccount<Account>
 {
-public:
-	Account& transform(float v) noexcept { m_mon += v; return *this; }
-	float balance() const { return m_mon; }
+	auto& deposit(float v) noexcept { m_mon += v; return *this; }
+	auto& takeOut(float v) noexcept { m_mon -= v; return *this; }
+	auto balance() const { return m_mon; }
 
 public:
 	Account() = default;
+	friend struct IAccount<Account>;
 
 private:
 	float m_mon = 10.f;
@@ -26,61 +31,76 @@ private:
 template<typename T>
 struct IAccountDB
 {
-	//using account_t = typename T::account_t;
 	auto& account(const std::string_view& str) { return static_cast<T*>(this)->account(str); }
+
+protected:
+	IAccountDB() = default;
 };
 
 template<typename T>
 class AccountDB : public IAccountDB<AccountDB<T>>
 {
-public:
-	//using account_t = T;
-	T& account(const std::string_view& str) { return m_accounts[str]; }
+	auto account(const std::string_view& str) -> IAccount<T>& { return m_accounts[str]; }
 
 public:
-	AccountDB& createAccount(const std::string_view& name)
+	auto& createAccount(const std::string_view& name)
 	{
 		m_accounts.emplace(name, T());
 		return *this;
 	}
 
+	friend struct IAccountDB<AccountDB<T>>;
+
 private:
 	std::map<std::string_view, T> m_accounts;
 };
 
-template<typename ImplAccountDB>
+template</*typename ImplTrans, typename ImplLog, */typename ImplAccDB>
 class ATM
 {
 public:
-	ATM(IAccountDB<ImplAccountDB>* db)
+	ATM(IAccountDB<ImplAccDB>* db)
 		: m_db(db)
-		//, m_trans(m_trans)
+		//, m_trans(db)
 	{
 	}
 
-	auto access(const std::string_view& account, size_t pin)
+	auto& access(const std::string_view& account)
 	{
 		return m_db->account(account);
 	}
 
 private:
-	IAccountDB<ImplAccountDB>* m_db;
-	//ImplTransactions m_trans;
-	//ImplLogger m_log;
+	IAccountDB<ImplAccDB>* m_db;
+	//ImplTrans m_trans;
+	//ImplLog m_log;
 };
 
-template<typename IAccountDB>
-class ATMTransactions
-{
-public:
-	ATMTransactions(IAccountDB* db)
-		: m_db(db)
-	{
-	}
-
-private:
-	IAccountDB* m_db;
-};
+//template<typename IAccountDB>
+//class ATMTransactions
+//{
+//public:
+//	ATMTransactions(IAccountDB* db)
+//		: m_db(db)
+//	{
+//	}
+//
+//private:
+//	IAccountDB* m_db;
+//};
+//
+//template<typename IAccountDB>
+//class ATMLogger
+//{
+//public:
+//	ATMTransactions(IAccountDB* db)
+//		: m_db(db)
+//	{
+//	}
+//
+//private:
+//	IAccountDB* m_db;
+//};
 
 int main(int argc, char** argv)
 {
@@ -88,7 +108,7 @@ int main(int argc, char** argv)
 	db.createAccount("ass");
 
 	ATM atm(&db);
-	std::cout << atm.access("ass", 1090).balance();
+	std::cout << atm.access("ass").balance();
 
 	return 0;
 }
