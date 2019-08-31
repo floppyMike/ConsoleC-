@@ -13,10 +13,63 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\proj">
+      <UniqueIdentifier>{da078c4a-5211-45c5-96e6-dc6809131bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\proj">
+      <UniqueIdentifier>{4e663f90-f29c-44a4-bc4f-1a353b1fe1a6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Account.cpp">
+      <Filter>Source Files\proj</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountDB.cpp">
+      <Filter>Source Files\proj</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountLogger.cpp">
+      <Filter>Source Files\proj</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountMoney.cpp">
+      <Filter>Source Files\proj</Filter>
+    </ClCompile>
+    <ClCompile Include="AccountSecurity.cpp">
+      <Filter>Source Files\proj</Filter>
+    </ClCompile>
+    <ClCompile Include="ATM.cpp">
+      <Filter>Source Files\proj</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Includes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Account.h">
+      <Filter>Header Files\proj</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountDB.h">
+      <Filter>Header Files\proj</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountLogger.h">
+      <Filter>Header Files\proj</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountMoney.h">
+      <Filter>Header Files\proj</Filter>
+    </ClInclude>
+    <ClInclude Include="AccountSecurity.h">
+      <Filter>Header Files\proj</Filter>
+    </ClInclude>
+    <ClInclude Include="ATM.h">
+      <Filter>Header Files\proj</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
