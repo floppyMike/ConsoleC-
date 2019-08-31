@@ -5,34 +5,51 @@
 template<typename ImplPat>
 class WaitingLine
 {
+	using type = WaitingLine<ImplPat>;
+
+public:
+	using patient_t = ImplPat;
+
 	WaitingLine() = default;
 
 	WaitingLine& joinList(ImplPat* pat);
-	std::initializer_list<ImplPat*> get(size_t amount);
-	size_t size() const noexcept;
+	template<typename Iter>
+	WaitingLine& joinList(Iter begin, Iter end);
+	ImplPat* get();
 
 private:
 	std::deque<ImplPat*> m_line;
 };
 
 template<typename ImplPat>
-inline WaitingLine<ImplPat>& WaitingLine<ImplPat>::joinList(ImplPat* pat)
+inline auto WaitingLine<ImplPat>::joinList(ImplPat* pat)
+-> type&
 {
 	m_line.emplace_back(pat);
 	return *this;
 }
 
 template<typename ImplPat>
-inline std::initializer_list<ImplPat*> WaitingLine<ImplPat>::get(size_t amount)
+inline ImplPat* WaitingLine<ImplPat>::get()
 {
-	std::initializer_list<ImplPat*> list = { m_line.begin(), m_line.begin() + amount };
-	m_line.erase(m_line.begin(), m_line.begin() + amount);
+	if (!m_line.empty())
+	{
+		auto* pat = m_line.front();
+		m_line.pop_front();
 
-	return list;
+		return pat;
+	}
+	else
+		return nullptr;
 }
 
 template<typename ImplPat>
-inline size_t WaitingLine<ImplPat>::size() const noexcept
+template<typename Iter>
+inline auto WaitingLine<ImplPat>::joinList(Iter begin, Iter end)
+-> type&
 {
-	return m_line.size();
+	static_assert(std::is_same_v<ImplPat*, std::iterator_traits<Iter>::value_type>, "Doctors operate on patients.");
+
+	m_line.insert(m_line.end(), begin, end);
+	return *this;
 }

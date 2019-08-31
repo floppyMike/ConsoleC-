@@ -5,37 +5,41 @@
 template<typename ImplPat>
 class Doctor
 {
+	using type = Doctor<ImplPat>;
+
+public:
 	Doctor() = default;
 
-	template<typename Iter>
-	Doctor& addPatients(Iter begin, Iter end);
+	Doctor& assignPatient(ImplPat* p);
 	Doctor& cure();
+	bool available() const noexcept;
 
 private:
-	std::array<ImplPat*, 16> m_pat;
-	typename std::array<ImplPat*, 16>::iterator m_spot = m_pat.begin();
+	ImplPat* m_pat = nullptr;
 };
 
 template<typename ImplPat>
-template<typename Iter>
-inline Doctor<ImplPat>& Doctor<ImplPat>::addPatients(Iter begin, Iter end)
+inline auto Doctor<ImplPat>::assignPatient(ImplPat* p)
+-> type&
 {
-	static_assert(std::is_same_v<ImplPat*, typename std::iterator_traits<Iter>::value_type>, "Doctors work only on patients.");
-	
-	if (std::distance(begin, end) > std::distance(m_spot, m_pat.end()))
-		throw std::runtime_error("Doctor unable to handle all assigned patients.");
-
-	std::copy(begin, end, m_spot);
-
+	m_pat = p;
 	return *this;
 }
 
 template<typename ImplPat>
-inline Doctor<ImplPat>& Doctor<ImplPat>::cure()
+inline auto Doctor<ImplPat>::cure()
+-> type&
 {
-	for (auto iter = m_pat.begin(); iter != m_spot; ++iter)
-		iter->cure();
-	m_spot = m_pat.begin();
-
+	if (m_pat != nullptr)
+	{
+		m_pat->cure();
+		m_pat = nullptr;
+	}
 	return *this;
+}
+
+template<typename ImplPat>
+inline bool Doctor<ImplPat>::available() const noexcept
+{
+	return m_pat == nullptr;
 }

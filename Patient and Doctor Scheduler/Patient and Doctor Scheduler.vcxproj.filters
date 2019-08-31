@@ -36,6 +36,9 @@
     <ClCompile Include="WaitingLine.cpp">
       <Filter>Source Files\proj</Filter>
     </ClCompile>
+    <ClCompile Include="DoctorList.cpp">
+      <Filter>Source Files\proj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Globals.h">
@@ -54,6 +57,9 @@
       <Filter>Header Files\proj</Filter>
     </ClInclude>
     <ClInclude Include="WaitingLine.h">
+      <Filter>Header Files\proj</Filter>
+    </ClInclude>
+    <ClInclude Include="DoctorList.h">
       <Filter>Header Files\proj</Filter>
     </ClInclude>
   </ItemGroup>

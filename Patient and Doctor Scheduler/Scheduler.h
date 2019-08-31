@@ -2,46 +2,69 @@
 
 #include "Includes.h"
 
-template<typename ImplDoc, typename ImplPat, typename ImplWait>
+template<typename ImplDocList, typename ImplPatList>
 class Scheduler
 {
+	using type = Scheduler<ImplDocList, ImplPatList>;
+
+	using patient_t = typename ImplPatList::patient_t;
+	using doctor_t = typename ImplDocList::doc_t;
+
+public:
 	Scheduler() = default;
 
-	Scheduler& addDoctor(ImplDoc* doc);
-	Scheduler& removDoctor(ImplDoc* doc);
+	Scheduler& addPatient(patient_t* p);
+	template<typename Iter>
+	Scheduler& addPatient(Iter begin, Iter end);
+	Scheduler& addDoctor(doctor_t* d);
+	Scheduler& removDoctor(doctor_t* d);
 
 	Scheduler& tick();
 
-	Scheduler& addPatient(ImplPat* pat);
-
 private:
-	std::vector<ImplDoc*> m_doctors;
-	ImplWait m_wait;
+	ImplDocList m_doctors;
+	ImplPatList m_wait;
 };
 
-template<typename ImplDoc, typename ImplPat, typename ImplWait>
-inline Scheduler<ImplDoc, ImplPat, ImplWait>& Scheduler<ImplDoc, ImplPat, ImplWait>::addDoctor(ImplDoc* doc)
+template<typename ImplDocList, typename ImplPatList>
+inline auto Scheduler<ImplDocList, ImplPatList>::addPatient(patient_t* p)
+-> type&
 {
-	m_doctors.emplace_back(doc);
+	m_wait.joinList(p);
 	return *this;
 }
 
-template<typename ImplDoc, typename ImplPat, typename ImplWait>
-inline Scheduler<ImplDoc, ImplPat, ImplWait>& Scheduler<ImplDoc, ImplPat, ImplWait>::removDoctor(ImplDoc* doc)
+template<typename ImplDocList, typename ImplPatList>
+inline auto Scheduler<ImplDocList, ImplPatList>::addDoctor(doctor_t* d)
+-> type&
 {
-	m_doctors.erase(std::find(m_doctors.begin(), m_doctors.end()));
+	m_doctors.add(d);
 	return *this;
 }
 
-template<typename ImplDoc, typename ImplPat, typename ImplWait>
-inline Scheduler<ImplDoc, ImplPat, ImplWait>& Scheduler<ImplDoc, ImplPat, ImplWait>::tick()
+template<typename ImplDocList, typename ImplPatList>
+inline auto Scheduler<ImplDocList, ImplPatList>::removDoctor(doctor_t* d)
+-> type&
 {
-	
+	m_doctors.remov(d);
+	return *this;
 }
 
-template<typename ImplDoc, typename ImplPat, typename ImplWait>
-inline Scheduler<ImplDoc, ImplPat, ImplWait>& Scheduler<ImplDoc, ImplPat, ImplWait>::addPatient(ImplPat* pat)
+template<typename ImplDocList, typename ImplPatList>
+inline auto Scheduler<ImplDocList, ImplPatList>::tick()
+-> type&
 {
-	m_wait.joinList(pat);
+	m_doctors.cure();
+	m_doctors.assign(&m_wait);
+
+	return *this;
+}
+
+template<typename ImplDocList, typename ImplPatList>
+template<typename Iter>
+inline auto Scheduler<ImplDocList, ImplPatList>::addPatient(Iter begin, Iter end)
+-> type&
+{
+	m_wait.joinList(begin, end);
 	return *this;
 }
